@@ -1,18 +1,19 @@
 #!/usr/bin/env node
-
+require('dotenv').config();
 /**
  * Module dependencies.
  */
 
 var app = require('../app');
-var debug = require('debug')('aom-server-side-app:server');
+const debug = require('debug')('aom-server-side-app:server');
 var http = require('http');
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+// var port = normalizePort(process.env.PORT || '3000'); ??? why it not working
+var port = normalizePort(5000);
 app.set('port', port);
 
 /**

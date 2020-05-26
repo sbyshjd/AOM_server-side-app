@@ -1,22 +1,54 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+//use the variable store in the .env file
+//use the process.env.VARIABLE name to use the variable value
+require('dotenv').config();
+
+//use express to create the basic server
+const express      = require('express');
+//node.js file system package to get the abs path of current folder
+const path         = require('path');
+//Parse Cookie header and populate req.cookies with an object keyed by the cookie names. what does it means?
+const cookieParser = require('cookie-parser');
+//Parse the body of the req.
+const bodyParser   = require('body-parser');
+// how to use morgan? like in the line 21
+const logger       = require('morgan');
 
 
+//mongoose to connect the mongodb by mongoose
+const mongoose = require('mongoose');
+mongoose
+.connect('mongodb://localhost/aom-server-side-app', {useNewUrlParser: true,useUnifiedTopology: true})
+.then(x=> {
+    console.log(`Connected to the database: ${x.connections[0].name}`)
+})
+.catch(err => {
+    console.log(`Error connecting to mongodb:`,err)
+})
 
-var app = express();
+
+const app = express();
+
+//? require the json file and use it directly?
+const app_name = require('./package.json').name;
+//how to use debug like the ironhackgenerator or in the express generator
+const debug = require('debug')('aom-server-side-app:server');
+// const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
 
 app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+//in ironhack we use bodyParser but in express generator we use express
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+//open the public folder for the accessible 
 app.use(express.static(path.join(__dirname, 'public')));
 
 
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
