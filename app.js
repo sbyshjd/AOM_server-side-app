@@ -47,9 +47,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 
-const indexRouter = require('./routes/index');
+
 const usersRouter = require('./routes/users');
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/api/users', usersRouter);
+
+
 
 module.exports = app;
