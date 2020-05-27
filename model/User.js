@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 const UserSchema = new Schema(
     {
-    username: {type:String,unique:true,required:true},
-    password: {type:String,required:true},
+    username: {type:String,unique:true},
+    password: {type:String},
     photo: {
         type:String,
         default:'https://res.cloudinary.com/ddycn57vj/image/upload/v1590523929/architecture-office-management-app/default-profile_qdsrui.png'

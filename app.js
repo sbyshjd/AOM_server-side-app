@@ -10,8 +10,13 @@ const path         = require('path');
 const cookieParser = require('cookie-parser');
 //Parse the body of the req.
 const bodyParser   = require('body-parser');
-// how to use morgan? like in the line 21
+// how to use morgan? the log out helper to tell the server where to put the console.log output
 const logger       = require('morgan');
+// express-session
+const session      = require('express-session');
+//persistence the session in mongodb
+const MongoStore = require('connect-mongo')(session);
+
 
 
 //mongoose to connect the mongodb by mongoose
@@ -44,6 +49,18 @@ app.use(cookieParser());
 
 //open the public folder for the accessible 
 app.use(express.static(path.join(__dirname, 'public')));
+
+//use the cookie-session and passport.js to login the user
+app.use(session({
+    secret:'architecture office management application as the ironhack final project',
+    resace: false,
+    saveUninitialized:true,
+    cookie:{maxAge:1000*60*60*24},
+    store: new MongoStore({mongooseConnection:mongoose.connection})
+}));
+
+require('./passport/main')(app);
+
 
 
 
