@@ -14,7 +14,7 @@ router.get('/', function(req, res, next) {
 
 //POST signup to create a new user and res a json file to front end.... it's a non-role route.
 router.post('/signup', (req,res,next) => {
-  const {username,password,birthday,email} = req.body;
+  const {username,password,email} = req.body;
   User.findOne({username})
   .then(foundUser => {
     if(foundUser) {
@@ -22,14 +22,14 @@ router.post('/signup', (req,res,next) => {
     }
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password,salt);
-    return User.create({username,password:hash,birthday,email})
+    return User.create({username,password:hash,email})
   })
   .then(newUser => {
-    // req.logIn(newUser,(err)=> {
-    //   if(err) {return next(err);}
-    //   return res.status(201).json(newUser)
-    // })
-    return res.status(201).json(newUser)
+    req.logIn(newUser,(err)=> {
+      if(err) {return next(err);}
+      return res.status(201).json(newUser)
+    })
+    // return res.status(201).json(newUser)
   })
   .catch(err => next(err))
 })
@@ -48,6 +48,19 @@ router.post('/login',(req,res,next)=> {
   })(req,res,next);
 })
 
+//GET to check if the user is logged in
+router.get('/isLogged',(req,res,next)=> {
+  if(req.isAuthenticated()) {
+    return res.status(200).json(req.user)
+  }
+  return res.status(403).json({message:'Unauthorized'})
+})
+
+//GET to log out the user
+router.get('/logout',(req,res,next)=> {
+  req.logout();
+  res.status(200).json({message:'Log out successfully!'})
+})
 
 //PUT update the users profile by id themselves..........it's a non-role route.
 

@@ -16,6 +16,8 @@ const logger       = require('morgan');
 const session      = require('express-session');
 //persistence the session in mongodb
 const MongoStore = require('connect-mongo')(session);
+//use cors to connect the front-end(react) with back-end(express)
+const cors         = require('cors');
 
 
 
@@ -61,6 +63,11 @@ app.use(session({
 
 require('./passport/main')(app);
 
+//cors to connect the front-back end
+app.use(cors({
+    credentials:true,
+    origin:['http://localhost:3000']
+}));
 
 
 
