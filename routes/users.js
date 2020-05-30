@@ -63,6 +63,13 @@ router.get('/logout',(req,res,next)=> {
 })
 
 //PUT update the users profile by id themselves..........it's a non-role route.
-
+router.put('/edit',(req,res,next)=> {
+  const { username,firstname,lastname,address,zipcode,city,country,phone,email,birthday,birthplace,nationality } = req.body;
+  User.findByIdAndUpdate(req.user.id,{ username,firstname,lastname,address,zipcode,city,country,phone,email,birthday,birthplace,nationality })
+  .then(response => {
+    res.status(200).json(response)
+  })
+  .catch(err=>next(err))
+})
 
 module.exports = router;
