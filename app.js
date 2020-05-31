@@ -75,6 +75,9 @@ app.use(cors({
 const usersRouter = require('./routes/users');
 app.use('/api/users', usersRouter);
 
+const eventsRouter = require('./routes/events');
+app.use('/api/events',eventsRouter);
+
 
 
 module.exports = app;

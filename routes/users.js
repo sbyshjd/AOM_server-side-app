@@ -7,11 +7,17 @@ const passport = require('passport');
 
 const uploadCloud = require('../config/cloudinary-setup');
 
+const isLogged = require('../config/isLogged');
+
 
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+router.get('/', isLogged, function(req, res, next) {
+  User.find()
+  .then(foundUsers => {
+    res.status(200).json(foundUsers)
+  })
+  .catch(err => next(err))
 });
 
 //POST signup to create a new user and res a json file to front end.... it's a non-role route.
@@ -80,7 +86,13 @@ router.put('/upload',uploadCloud.single('photo'),(req,res,next)=> {
     next(new Error('no file upload!'));
     return;
   }
-  res.status(200).json({photo:req.file.path})
+  User.findOneAndUpdate({_id:req.user.id},{photo:req.file.path})
+  .then(response => {
+    res.status(200).json({response})
+  })
+  .catch(err => {
+    next(err=>next(err))
+  })
 })
 
 module.exports = router;

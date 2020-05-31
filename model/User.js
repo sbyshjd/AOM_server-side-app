@@ -11,7 +11,7 @@ const UserSchema = new Schema(
     zipcode:String,
     city:String,
     country:String,
-    phone:Number,
+    phone:String,
     birthday: Date,
     birthplace:String,
     email: String,

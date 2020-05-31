@@ -1,7 +1,7 @@
 const cloudinary = require('cloudinary').v2;
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const multer = require('multer');
-const{ uuidv4 } = require('uuidv4');
+const { v4: uuidv4 } = require('uuid');
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_NAME,
