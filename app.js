@@ -55,7 +55,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //use the cookie-session and passport.js to login the user
 app.use(session({
     secret:'architecture office management application as the ironhack final project',
-    resace: false,
+    resave: false,
     saveUninitialized:true,
     cookie:{maxAge:1000*60*60*24},
     store: new MongoStore({mongooseConnection:mongoose.connection})

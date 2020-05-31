@@ -5,6 +5,8 @@ const User    = require('../model/User');
 const bcrypt  = require('bcrypt');
 const passport = require('passport');
 
+const uploadCloud = require('../config/cloudinary-setup');
+
 
 
 /* GET users listing. */
@@ -70,6 +72,15 @@ router.put('/edit',(req,res,next)=> {
     res.status(200).json(response)
   })
   .catch(err=>next(err))
+})
+
+//POST upload user image to cloudinary
+router.put('/upload',uploadCloud.single('photo'),(req,res,next)=> {
+  if(!req.file) {
+    next(new Error('no file upload!'));
+    return;
+  }
+  res.status(200).json({photo:req.file.path})
 })
 
 module.exports = router;
