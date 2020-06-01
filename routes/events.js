@@ -58,5 +58,27 @@ router.put('/invite/:id',isLogged,(req,res,next)=> {
     .catch(err => next(err))
 })
 
+//PUT add the participant from the client side
+router.put('/join/:id',isLogged,(req,res,next)=> {
+    const id = req.params.id;
+    const {participantID} = req.body;
+    Event.findOneAndUpdate({_id:id},{ $push: { participants: participantID } })
+    .then(response => {
+        res.status(200).json(response)
+    })
+    .catch(err => next(err))
+})
+
+//PUT unjoin the participant from the clint side
+router.put('/unjoin/:id',isLogged,(req,res,next)=> {
+    const id = req.params.id;
+    const {participantID} = req.body;
+    Event.findOneAndUpdate({_id:id},{ $pull: { participants: participantID } })
+    .then(response => {
+        res.status(200).json(response)
+    })
+    .catch(err => next(err))
+})
+
 
 module.exports = router;
