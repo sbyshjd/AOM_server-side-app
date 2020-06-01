@@ -7,7 +7,9 @@ const EventSchema = new Schema(
     description: String,
     starttime:Date,
     endtime:Date,
+    type:{type:String,enum:['meeting','holiday','activity']},
     owner:{type:Schema.Types.ObjectId,ref:'User'},
+    forwho:[{type:Schema.Types.ObjectId,ref:'User'}],
     participants:[{type:Schema.Types.ObjectId,ref:'User'}]
     }, 
     {timestamps:true}
