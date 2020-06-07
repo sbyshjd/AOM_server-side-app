@@ -5,8 +5,8 @@ const isLogged= require('../config/isLogged');
 
 //POST create a new event 
 router.post('/',isLogged,(req,res,next)=> {
-    const {type,eventname,description,starttime,endtime,owner,forwho,participants} = req.body;
-    Event.create({type,eventname,description,starttime,endtime,owner,forwho,participants})
+    const {type,eventname,description,starttime,endtime,owner,mode,forwho,participants} = req.body;
+    Event.create({type,eventname,description,starttime,endtime,owner,mode,forwho,participants})
     .then(newEvent => {
         res.status(201).json(newEvent)
     })
@@ -38,8 +38,8 @@ router.delete('/:id', isLogged, (req,res,next) => {
 //PUT edit the event card 
 router.put('/edit/:id',isLogged,(req,res,next)=> {
     const id = req.params.id;
-    const { type,eventname,description,starttime,endtime } = req.body;
-    Event.findOneAndUpdate({_id:id},{type,eventname,description,starttime,endtime})
+    const { type,eventname,description,starttime,endtime,mode } = req.body;
+    Event.findOneAndUpdate({_id:id},{type,eventname,description,starttime,endtime,mode})
     .then(response => {
         res.status(200).json(response)
     })
