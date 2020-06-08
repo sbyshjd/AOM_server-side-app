@@ -5,8 +5,8 @@ const isLogged= require('../config/isLogged');
 
 //POST create a new event 
 router.post('/',isLogged,(req,res,next)=> {
-    const {type,eventname,description,starttime,endtime,owner,mode,forwho,participants} = req.body;
-    Event.create({type,eventname,description,starttime,endtime,owner,mode,forwho,participants})
+    const {type,eventname,description,starttime,endtime,owner,mode,forwho,participants,isallday,project} = req.body;
+    Event.create({type,eventname,description,starttime,endtime,owner,mode,forwho,participants,isallday,project})
     .then(newEvent => {
         res.status(201).json(newEvent)
     })
