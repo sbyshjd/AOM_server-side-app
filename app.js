@@ -78,6 +78,9 @@ app.use('/api/users', usersRouter);
 const eventsRouter = require('./routes/events');
 app.use('/api/events',eventsRouter);
 
+const projectsRouter = require('./routes/projects');
+app.use('/api/projects',projectsRouter);
+
 
 
 module.exports = app;
