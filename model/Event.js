@@ -13,7 +13,7 @@ const EventSchema = new Schema(
     forwho:[{type:Schema.Types.ObjectId,ref:'User'}],
     participants:[{type:Schema.Types.ObjectId,ref:'User'}],
     isallday:Boolean,
-    project:String
+    project:{type:String}
     }, 
     {timestamps:true}
 )
