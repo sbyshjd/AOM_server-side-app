@@ -7,10 +7,10 @@ const ProjectSchema = new Schema (
     startdate: Date,
     enddate:Date,
     status:{type:String,enum:['ongoing','suspend','finished']},
-    owner: {type:Schema.Types.ObjectId,ref:'User'},
+    partner: {type:Schema.Types.ObjectId,ref:'User'},
     leader:{type:Schema.Types.ObjectId,ref:'User'},
     team:[{type:Schema.Types.ObjectId,ref:'User'}],
-    phase:[{type:String,enum:['Tender','SO','VO','DO','TO','UO','PR']}]
+    phase:{type:String,enum:['Tender','SO','VO','DO','TO','UO','PR']}
     },
     {timestamps:true}
 )
