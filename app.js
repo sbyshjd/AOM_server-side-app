@@ -81,6 +81,9 @@ app.use('/api/events',eventsRouter);
 const projectsRouter = require('./routes/projects');
 app.use('/api/projects',projectsRouter);
 
+const workTimesRouter = require('./routes/WorkTimes');
+app.use('/api/worktimes',workTimesRouter);
+
 
 
 module.exports = app;
