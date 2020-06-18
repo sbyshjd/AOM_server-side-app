@@ -27,17 +27,17 @@ router.get('/:userid/:year/:week',isLogged,(req,res,next)=> {
     .catch(err => next(err))
 })
 
-//GET get all the events from the data base
-// router.get('/', isLogged, (req,res,next)=> {
-//     Event.find()
-//     .populate('owner')
-//     .populate('forwho')
-//     .populate('participants')
-//     .then(events => {
-//         res.status(200).json(events)
-//     })
-//     .catch(err => next(err))
-// })
+// GET get all your week time
+router.get('/:userid', isLogged, (req,res,next)=> {
+    const creator = req.params.userid;
+    WorkTime.find({creator:creator})
+    .populate('project')
+    .populate('creator')
+    .then(workTimes => {
+        res.status(200).json(workTimes)
+    })
+    .catch(err => next(err))
+})
 
 //DELETE delete the selected event card
 router.delete('/:id', isLogged, (req,res,next) => {

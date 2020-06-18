@@ -2,6 +2,7 @@ const express = require('express');
 const router  = express.Router();
 const Project = require('../model/Project');
 const User = require('../model/User');
+const Task = require('../model/Task');
 const isLogged= require('../config/isLogged');
 
 //POST create a project
@@ -50,8 +51,14 @@ router.get('/:id',isLogged,(req,res,next)=> {
 //DELETE delete the selected project by id
 router.delete('/:id',isLogged,(req,res,next) => {
     const id = req.params.id;
-    User.updateMany({projects:id},{$pull:{projects:id}})
+    //delete all the tasks of this project
+    Task.deleteMany({project:id})
     .then(response => {
+        //update the users projects
+        return User.updateMany({projects:id},{$pull:{projects:id}})
+    })
+    .then(response => {
+        //delete this project
         return Project.findByIdAndDelete(id)
     })
     .then(response => {
