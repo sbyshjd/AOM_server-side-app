@@ -15,6 +15,8 @@ const UserSchema = new Schema(
     birthday: Date,
     birthplace:String,
     email: String,
+    providerId: {type:String,default:''},
+    provider:{type:String,default:''},        
     nationality:String,
     photo: {
         type:String,
@@ -23,8 +25,7 @@ const UserSchema = new Schema(
     role: {type:String,enum:['partner','leader','employee'],default:'employee'},
     
     projects: [{type:Schema.Types.ObjectId,ref:'Project'}],
-    events: [{type:Schema.Types.ObjectId,ref:'Event'}],
-    blogs: [{type:Schema.Types.ObjectId,ref:'Blog'}]
+    events: [{type:Schema.Types.ObjectId,ref:'Event'}]
     },
     {timestamps:true}
 )

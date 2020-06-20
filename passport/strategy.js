@@ -1,5 +1,6 @@
 const passport      = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const GoogleTokenStrategy = require('passport-google-token').Strategy;
 const User          = require('../model/User');
 const bcrypt        = require('bcrypt');
 
@@ -22,3 +23,37 @@ passport.use(new LocalStrategy(
         })
     }
 ));
+
+passport.use(
+    new GoogleTokenStrategy(
+        {
+            clientID: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET
+        },
+        async (accessToken, refreshToken, profile, done) => {
+            const { imageUrl, id, ...rest }= profile;
+            let user = null;
+            let error = null;
+            try {
+                let existingUser = await User.findOne({providerId:id})
+                if(existingUser) {
+                    user = existingUser;
+                } else {
+                    const verifiedEmail = profile.emails.find(email => email.verified) || profile.emails[0];
+                    const newUser = await User.create({
+                            email:verifiedEmail.value,
+                            username:profile.name.givenName,
+                            providerId: id,
+                            photo:imageUrl,
+                            provider: 'Google'
+                        })
+                    user = newUser;
+                }
+            } catch (err){
+                error = err;
+            }
+            return done(error,user)
+
+        }
+    )
+)

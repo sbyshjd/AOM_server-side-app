@@ -95,4 +95,18 @@ router.put('/upload',uploadCloud.single('photo'),(req,res,next)=> {
   })
 })
 
+router.post('/login/google',
+  passport.authenticate('google-token'),
+  async (req,res) => {
+    if(req.error) {
+      return res.status(401).json({
+        success: false,
+        user:null
+      })
+    } else {
+      return res.status(200).json(req.user);
+    }
+  }
+ );
+
 module.exports = router;
