@@ -10,14 +10,21 @@ const path         = require('path');
 const cookieParser = require('cookie-parser');
 //Parse the body of the req.
 const bodyParser   = require('body-parser');
-// how to use morgan? like in the line 21
+// how to use morgan? the log out helper to tell the server where to put the console.log output
 const logger       = require('morgan');
+// express-session
+const session      = require('express-session');
+//persistence the session in mongodb
+const MongoStore = require('connect-mongo')(session);
+//use cors to connect the front-end(react) with back-end(express)
+const cors         = require('cors');
+
 
 
 //mongoose to connect the mongodb by mongoose
 const mongoose = require('mongoose');
 mongoose
-.connect('mongodb://localhost/aom-server-side-app', {useNewUrlParser: true,useUnifiedTopology: true})
+.connect(`${process.env.MONGODB_URI}`, {useNewUrlParser: true,useUnifiedTopology: true})
 .then(x=> {
     console.log(`Connected to the database: ${x.connections[0].name}`)
 })
@@ -45,11 +52,45 @@ app.use(cookieParser());
 //open the public folder for the accessible 
 app.use(express.static(path.join(__dirname, 'public')));
 
+//use the cookie-session and passport.js to login the user
+app.use(session({
+    secret:'architecture office management application as the ironhack final project',
+    resave: false,
+    saveUninitialized:true,
+    cookie:{maxAge:1000*60*60*24},
+    store: new MongoStore({mongooseConnection:mongoose.connection})
+}));
+
+require('./passport/main')(app);
+
+//cors to connect the front-back end
+app.use(cors({
+    credentials:true,
+    origin:['http://localhost:3000','https://aom-ironhack-app.netlify.app']
+}));
 
 
-const indexRouter = require('./routes/index');
+
+
 const usersRouter = require('./routes/users');
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/api/users', usersRouter);
+
+const eventsRouter = require('./routes/events');
+app.use('/api/events',eventsRouter);
+
+const projectsRouter = require('./routes/projects');
+app.use('/api/projects',projectsRouter);
+
+const workTimesRouter = require('./routes/WorkTimes');
+app.use('/api/worktimes',workTimesRouter);
+
+const tasksRouter = require('./routes/tasks');
+app.use('/api/tasks',tasksRouter);
+
+const forgotPasswordRouter = require('./routes/forgotPassword');
+app.use('/api/forgotpassword',forgotPasswordRouter);
+
+
+
 
 module.exports = app;
