@@ -24,7 +24,7 @@ const cors         = require('cors');
 //mongoose to connect the mongodb by mongoose
 const mongoose = require('mongoose');
 mongoose
-.connect('mongodb://localhost/aom-server-side-app', {useNewUrlParser: true,useUnifiedTopology: true})
+.connect(`${process.env.MONGODB_URI}`, {useNewUrlParser: true,useUnifiedTopology: true})
 .then(x=> {
     console.log(`Connected to the database: ${x.connections[0].name}`)
 })
@@ -66,7 +66,7 @@ require('./passport/main')(app);
 //cors to connect the front-back end
 app.use(cors({
     credentials:true,
-    origin:['http://localhost:3000']
+    origin:['http://localhost:3000','https://aom-ironhack-app.netlify.app']
 }));
 
 
