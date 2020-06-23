@@ -25,7 +25,9 @@ const UserSchema = new Schema(
     role: {type:String,enum:['partner','leader','employee'],default:'employee'},
     
     projects: [{type:Schema.Types.ObjectId,ref:'Project'}],
-    events: [{type:Schema.Types.ObjectId,ref:'Event'}]
+    events: [{type:Schema.Types.ObjectId,ref:'Event'}],
+    resetPasswordToken:String,
+    resetPasswordExpires:Date,
     },
     {timestamps:true}
 )

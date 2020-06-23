@@ -23,10 +23,13 @@ router.get('/', isLogged, function(req, res, next) {
 //POST signup to create a new user and res a json file to front end.... it's a non-role route.
 router.post('/signup', (req,res,next) => {
   const {username,password,email} = req.body;
+  if(username===''||password===''||email==='') {
+    return res.status(400).json({success:false,message:'Invalid input please fill in all the information'})
+  }
   User.findOne({username})
   .then(foundUser => {
     if(foundUser) {
-      return res.status(400).json({message:'The username is being used, please use another name.'})
+      return res.status(400).json({success:false,message:'The username is being used, please use another name.'})
     }
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password,salt);
@@ -35,7 +38,7 @@ router.post('/signup', (req,res,next) => {
   .then(newUser => {
     req.logIn(newUser,(err)=> {
       if(err) {return next(err);}
-      return res.status(201).json(newUser)
+      return res.status(201).json({success:true,user:newUser})
     })
     // return res.status(201).json(newUser)
   })
@@ -47,11 +50,11 @@ router.post('/login',(req,res,next)=> {
   passport.authenticate('local',(err,user,info) => {
     if(err) {return next(err)};
     if(!user) {
-      return res.status(400).json(info)
+      return res.status(400).json({success:false,error:req.error})
     }
     req.logIn(user,(err)=> {
       if(err) {return next(err);}
-      return res.status(200).json(user)
+      return res.status(200).json({success:true,user:req.user})
     })
   })(req,res,next);
 })

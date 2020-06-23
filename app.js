@@ -87,6 +87,10 @@ app.use('/api/worktimes',workTimesRouter);
 const tasksRouter = require('./routes/tasks');
 app.use('/api/tasks',tasksRouter);
 
+const forgotPasswordRouter = require('./routes/forgotPassword');
+app.use('/api/forgotpassword',forgotPasswordRouter);
+
+
 
 
 module.exports = app;
