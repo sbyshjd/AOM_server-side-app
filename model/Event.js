@@ -11,6 +11,7 @@ const EventSchema = new Schema(
     type:{type:String,enum:['meeting','holiday','activity']},
     owner:{type:Schema.Types.ObjectId,ref:'User'},
     forwho:[{type:Schema.Types.ObjectId,ref:'User'}],
+    responses:[{type:Schema.Types.ObjectId,ref:'User'}],
     participants:[{type:Schema.Types.ObjectId,ref:'User'}],
     isallday:Boolean,
     isforall:Boolean,

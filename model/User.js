@@ -22,7 +22,7 @@ const UserSchema = new Schema(
         type:String,
         default:'https://res.cloudinary.com/ddycn57vj/image/upload/v1590523929/architecture-office-management-app/default-profile_qdsrui.png'
     },
-    role: {type:String,enum:['partner','leader','employee'],default:'employee'},
+    role: {type:String,enum:['admin','employee'],default:'employee'},
     
     projects: [{type:Schema.Types.ObjectId,ref:'Project'}],
     events: [{type:Schema.Types.ObjectId,ref:'Event'}],

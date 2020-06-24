@@ -62,7 +62,7 @@ router.put('/invite/:id',isLogged,(req,res,next)=> {
 router.put('/join/:id',isLogged,(req,res,next)=> {
     const id = req.params.id;
     const {participantID} = req.body;
-    Event.findOneAndUpdate({_id:id},{ $push: { participants: participantID } })
+    Event.findOneAndUpdate({_id:id},{ $push: { participants: participantID, responses:participantID  } })
     .then(response => {
         res.status(200).json(response)
     })
