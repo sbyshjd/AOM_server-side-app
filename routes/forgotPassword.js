@@ -40,7 +40,7 @@ router.post('/',(req,res,next) => {
                 subject:'Link To Reset Password of your Mana-Architecture app',
                 text:'You are receiving this because you (or someone else) has asked to reset the password for your account.\n\n'
                     +'Please click on the link or paste this to your browser to complete the process in one hour.\n\n'
-                    +`http://localhost:3000/reset/${token} \n\n`
+                    +`https://aom-ironhack-app.netlify.app/reset/${token} \n\n`
                     +'If you did not request this, please ignore this email and your password will remain unchanged'
             }
     

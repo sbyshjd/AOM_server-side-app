@@ -98,6 +98,7 @@ router.put('/upload',uploadCloud.single('photo'),(req,res,next)=> {
   })
 })
 
+//log in by google method
 router.post('/login/google',
   passport.authenticate('google-token'),
   async (req,res) => {
@@ -111,5 +112,18 @@ router.post('/login/google',
     }
   }
  );
+
+ //delete the user by admin;
+router.delete('/delete/:id',isLogged,(req,res,next) => {
+  const id = req.params.id;
+  User.findOneAndDelete({_id:id})
+  .then(response => {
+    res.status(200).json({
+      success:true,
+      message: response
+    })
+  })
+  .catch(err => next(err))
+})
 
 module.exports = router;
