@@ -98,6 +98,34 @@ router.put('/upload',uploadCloud.single('photo'),(req,res,next)=> {
   })
 })
 
+//PUT change role of user by id
+router.put('/changerole/:id',isLogged,(req,res,next) => {
+  const id = req.params.id;
+  const role = req.body.role;
+  User.findOneAndUpdate({_id:id},{role:role})
+  .then(response => {
+    res.status(200).json({
+      success:true,
+      message:response
+    })
+  })
+  .catch(err => next(err))
+})
+
+//PUT change the status of user by id
+router.put('/changestatus/:id',isLogged,(req,res,next) => {
+  const id = req.params.id;
+  const status = req.body.status;
+  User.findOneAndUpdate({_id:id},{status:status})
+  .then(response => {
+    res.status(200).json({
+      success:true,
+      message:response
+    })
+  })
+  .catch(err => next(err))
+})
+
 //log in by google method
 router.post('/login/google',
   passport.authenticate('google-token'),

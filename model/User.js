@@ -23,7 +23,7 @@ const UserSchema = new Schema(
         default:'https://res.cloudinary.com/ddycn57vj/image/upload/v1590523929/architecture-office-management-app/default-profile_qdsrui.png'
     },
     role: {type:String,enum:['admin','employee'],default:'employee'},
-    
+    status:{type:String,enum:['active','inactive'],default:'active'},
     projects: [{type:Schema.Types.ObjectId,ref:'Project'}],
     events: [{type:Schema.Types.ObjectId,ref:'Event'}],
     resetPasswordToken:String,
