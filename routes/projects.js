@@ -7,12 +7,12 @@ const isLogged= require('../config/isLogged');
 
 //POST create a project
 router.post('/',isLogged,(req,res,next)=> {
-    const {projectname,projectcode,startdate,enddate,status,partner,leader,team,phase} = req.body;
+    const {projectname,projectcode,startdate,enddate,status,leader,team,phase} = req.body;
     //Update the user to change his role to project leader;
     
     //Assign all the team with the project;
     
-    Project.create({projectname,projectcode,startdate,enddate,status,partner,leader,team,phase})
+    Project.create({projectname,projectcode,startdate,enddate,status,leader,team,phase})
     .then(newProject => {
         const updateProject = User.updateMany({ _id: { $in: team } },{ $push:{projects:newProject._id} });
         const updateOther = User.updateMany({ _id: { $nin: team } },{ $pull:{projects:newProject._id} });
